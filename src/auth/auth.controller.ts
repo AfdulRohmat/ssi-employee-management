@@ -5,6 +5,7 @@ import { User } from 'src/users/entities/user.entity';
 import { Response } from 'express';
 import { CommonResponseDto } from 'src/utils/common-response.dto';
 import { NoFilesInterceptor } from '@nestjs/platform-express';
+import { RegisterResponseDTO } from './dto/response/register-response.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -12,25 +13,17 @@ export class AuthController {
 
   @Post('register')
   @UseInterceptors(NoFilesInterceptor())
-  async register(@Body() request: RegisterRequestDTO) {
-    // const { username, email, password } = request.body
+  async register(@Body() request: RegisterRequestDTO, @Res() response: Response): Promise<RegisterResponseDTO | any> {
 
-    // if (!username || !email || !password) {
-    //   const errorResponse = new CommonResponseDto(400, 'Missing required fields', null, ['Missing required fields']);
-    //   response.status(errorResponse.status).json(errorResponse);
-    // }
-    // const registerDto: RegisterRequestDTO = { username, email, password };
-    return await this.authService.register(request);
+    try {
+      const registerResponseDto: RegisterResponseDTO = await this.authService.register(request);
 
-    // try {
-    //   const registerDto: RegisterRequestDTO = { username, email, password };
-
-    //   const successResponse = new CommonResponseDto(201, 'User registered successfully', user, null);
-    //   response.status(successResponse.status).json(successResponse);
-    // } catch (error) {
-    //   const errorResponse = new CommonResponseDto(500, 'Internal server error', null, ['Internal server error']);
-    //   response.status(errorResponse.status).json(errorResponse);
-    // }
+      const successResponse = new CommonResponseDto(201, 'User registered successfully', registerResponseDto, null);
+      return response.status(successResponse.statusCode).json(successResponse);
+    } catch (error) {
+      const errorResponse = new CommonResponseDto(500, 'Internal server error', null, ['Internal server error']);
+      response.status(errorResponse.statusCode).json(errorResponse);
+    }
   }
 
 }

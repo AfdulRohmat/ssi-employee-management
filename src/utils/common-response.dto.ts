@@ -1,12 +1,12 @@
 // common-response.dto.ts
 export class CommonResponseDto {
-    status: number;
+    statusCode: number;
     message: string;
     data: any;
     error: string[] | null;
 
-    constructor(status: number, message: string, data: any, error: string[] | null) {
-        this.status = status;
+    constructor(statusCode: number, message: string, data: any, error: string[] | null) {
+        this.statusCode = statusCode;
         this.message = message;
         this.data = data;
         this.error = error;

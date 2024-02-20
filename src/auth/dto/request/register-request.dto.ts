@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
+import { Role } from "src/users/entities/role.entity";
 import { IsUnique } from "src/utils/validation/is-unique";
 
 export class RegisterRequestDTO {
@@ -16,4 +17,5 @@ export class RegisterRequestDTO {
     @IsNotEmpty()
     @MinLength(4, { message: 'Password minimal terdiri dari 4 karakter' })
     password: string;
+
 }

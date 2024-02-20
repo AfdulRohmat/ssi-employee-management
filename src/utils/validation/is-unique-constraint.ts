@@ -13,10 +13,6 @@ export class IsUniqueConstraint implements ValidatorConstraintInterface {
     async validate(value: any, args?: ValidationArguments): Promise<boolean> {
         const { tableName, column }: IsUniqueConstraintInput = args?.constraints[0];
 
-        // console.log({
-        //     args, tableName, column
-        // })
-
         const exists = await this.dataSource
             .getRepository(tableName)
             .createQueryBuilder(tableName)

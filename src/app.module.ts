@@ -8,11 +8,12 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/entities/user.entity';
 import { IsUniqueConstraint } from './utils/validation/is-unique-constraint';
+import { Role } from './users/entities/role.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({}),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Role]),
     DatabaseModule,
     UsersModule,
     AuthModule,
