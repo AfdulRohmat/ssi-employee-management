@@ -1,5 +1,4 @@
-// register-response.dto.ts
-export class RegisterResponseDTO {
+export class ActivateAccountResponseDTO {
     email: string
     message: string | null
 

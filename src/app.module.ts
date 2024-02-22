@@ -9,6 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { User } from './users/entities/user.entity';
 import { IsUniqueConstraint } from './utils/validation/is-unique-constraint';
 import { Role } from './users/entities/role.entity';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -17,6 +19,7 @@ import { Role } from './users/entities/role.entity';
     DatabaseModule,
     UsersModule,
     AuthModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService, IsUniqueConstraint],
