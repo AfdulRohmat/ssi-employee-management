@@ -9,6 +9,7 @@ import { Role, UserRole } from 'src/users/entities/role.entity';
 import { EmailService } from 'src/email/email.service';
 import { ActivateAccountRequestDTO } from './dto/request/activate-account-request.dto';
 import { ActivateAccountResponseDTO } from './dto/response/activate-account-response.dto';
+import { JwtService } from '@nestjs/jwt';
 
 
 @Injectable()
@@ -18,8 +19,8 @@ export class AuthService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
-
-    private emailService: EmailService
+    private emailService: EmailService,
+    private jwtService: JwtService,
   ) { }
 
   async register(request: RegisterRequestDTO): Promise<RegisterResponseDTO> {
@@ -76,4 +77,46 @@ export class AuthService {
       throw new BadRequestException('Proses gagal', { cause: new Error(), description: 'Kode aktivasi tidak valid' })
     }
   }
+
+  async login(user: User) {
+    const payload = {
+      username: user.email,
+      sub: {
+        username: user.username,
+      }
+    }
+    const { username, email } = user
+    const jwtSign = this.jwtService.sign(payload)
+
+    return {
+      username,
+      email,
+      accessToken: jwtSign
+    }
+  }
+
+  async validateUser(username: string, password: string) {
+    const user = await this.userRepository.findOneOrFail({
+      where: {
+        email: username
+      }
+    })
+
+    if (user.isVerified == false) {
+      throw new BadRequestException('Proses gagal', { cause: new Error(), description: 'Akun belum terverifikasi. Silahkan verifikasi terlebih dahulu' })
+    }
+
+    const actualPassword = await bcrypt.compare(password, user.password)
+
+    if (user && actualPassword) {
+      const { password, ...rest } = user
+
+      return rest;
+    }
+
+    return null;
+  }
+
+  async logout(): Promise<void> { }
+
 }
