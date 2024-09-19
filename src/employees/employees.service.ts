@@ -152,7 +152,8 @@ export class EmployeesService {
       const buffers: Buffer[] = [];
       const doc = new PDFDocument({
         size: 'A4',
-        margin: 30,
+        // layout: 'landscape',
+        margin: 20,
       });
 
       // Capture the PDF output as a buffer
@@ -163,13 +164,14 @@ export class EmployeesService {
       const table = {
         title: 'Data Karyawan',
         headers: [
-          { label: 'No', property: 'no', width: 50 },
-          { label: 'Nama', property: 'nama', width: 120 },
+          { label: 'No', property: 'no', width: 20 },
+          { label: 'Nama', property: 'nama', width: 100 },
           { label: 'Nomor', property: 'nomor', width: 80 },
-          { label: 'Jabatan', property: 'jabatan', width: 100 },
-          { label: 'Departemen', property: 'departemen', width: 100 },
-          { label: 'Tanggal Masuk', property: 'tanggalMasuk', width: 80 },
-          { label: 'Status', property: 'status', width: 80 },
+          { label: 'Jabatan', property: 'jabatan', width: 70 },
+          { label: 'Departemen', property: 'departemen', width: 80 },
+          { label: 'Tanggal Masuk', property: 'tanggalMasuk', width: 50 },
+          { label: 'Foto', property: 'foto', width: 100 },
+          { label: 'Status', property: 'status', width: 50 },
         ],
         rows: data.map((employee, index) => [
           (index + 1).toString(), // No (converted to string)
@@ -178,6 +180,7 @@ export class EmployeesService {
           employee.jabatan,
           employee.departemen,
           employee.tanggalMasuk.toLocaleDateString(),
+          employee.foto,
           employee.status,
         ]),
       };
