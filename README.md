@@ -1,3 +1,59 @@
+# Employee Management API
+
+## Table of Contents
+1. [Pulling the Repository](#pulling-the-repository)
+2. [Running Docker](#running-docker)
+3. [Accessing Swagger Documentation](#accessing-swagger-documentation)
+4. [API Endpoints](#api-endpoints)
+
+
+## Pulling the Repository
+To pull the repository, run the following command in your terminal:
+
+```bash
+git clone https://github.com/AfdulRohmat/ssi-employee-management.git
+cd https://github.com/AfdulRohmat/ssi-employee-management.git
+```
+
+## Running Docker
+First, running the docker build to build an image
+```bash
+docker-compose up --build
+```
+
+Later, just run the docker compose
+```bash
+docker-compose up -d
+```
+
+Application will running with postgreSQL database inside docker
+
+## Accessing Swagger Documentation
+Once the application is running, you can access the Swagger documentation at the following URL:
+```bash
+http://localhost:3000/api-docs/
+```
+
+## API Endpoints
+| Name                          | Method | URL                                  | Description                                   |
+|-------------------------------|--------|--------------------------------------|-----------------------------------------------|
+| Register User                 | POST   | `/api/v1/auth/register`             | Registers a new user                          |
+| Get Data User                 | GET    | `/api/v1/users/info`                | Get data user that currently login
+| Activate Account              | POST   | `/api/v1/auth/activate-account`     | Activates a user's account                    |
+| User Login                    | POST   | `/api/v1/auth/login`                | Logs in a user and returns a JWT token       |
+| Add Employee                  | POST   | `/api/v1/employees/add-employee`    | Adds a new employee                           |
+| Get All Employees             | GET    | `/api/v1/employees/all-employees`   | Retrieves a list of all employees             |
+| Get Employee by ID            | GET    | `/api/v1/employees/:id`             | Retrieves an employee by their ID             |
+| Update Employee by ID         | PUT    | `/api/v1/employees/:id/update`      | Updates an employee's details                 |
+| Soft Delete Employee by ID     | DELETE | `/api/v1/employees/:id/delete`      | Soft deletes an employee by their ID          |
+| Import Employees from CSV     | POST   | `/api/v1/employees/import-csv`      | Imports employees from a CSV file             |
+| Export Employees (per page)   | GET    | `/api/v1/employees/export-data/per-page` | Exports employees data in CSV or PDF format |
+| Export All Employees          | GET    | `/api/v1/employees/export-data/all` | Exports all employees data in CSV or PDF format |
+
+
+
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
