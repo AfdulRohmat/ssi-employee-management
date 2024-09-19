@@ -11,7 +11,7 @@ export class EmailService {
         await this.mailerService.sendMail({
             to: user.email,
             from: '"Support Team" <afdulrohmat03@gmail.com>', // override default from
-            subject: 'Welcome to Tugas Akhir App! Confirm your Email',
+            subject: 'Welcome to Employee Management App. Please confirm your Email',
             template: './confirmation', // `.hbs` extension is appended automatically
             context: { // ✏️ filling curly brackets with content
                 name: user.username,

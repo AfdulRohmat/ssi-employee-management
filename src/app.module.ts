@@ -11,15 +11,21 @@ import { IsUniqueConstraint } from './utils/validation/is-unique-constraint';
 import { Role } from './users/entities/role.entity';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { EmailModule } from './email/email.module';
+import { EmployeesModule } from './employees/employees.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({}),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forFeature([User, Role]),
     DatabaseModule,
     UsersModule,
     AuthModule,
     EmailModule,
+    EmployeesModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService, IsUniqueConstraint],

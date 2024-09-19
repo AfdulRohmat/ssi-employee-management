@@ -9,6 +9,7 @@ async function bootstrap() {
     cors: true,
     bodyParser: true,
   });
+
   app.useGlobalPipes(
     new ValidationPipe({
       exceptionFactory: (errors) => {
@@ -22,8 +23,9 @@ async function bootstrap() {
     }),
   );
 
-  useContainer(app.select(AppModule), { fallbackOnErrors: true });
+  app.setGlobalPrefix("/api/v1");
 
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   await app.listen(3000);
 }
