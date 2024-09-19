@@ -1,0 +1,445 @@
+{
+	"info": {
+		"_postman_id": "87e2055b-f77e-4842-ae29-8fc3a6660fd9",
+		"name": "Sinar Sakti International Employee Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "15515102"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\r\n//     \"username\": \"Afdul Rohmat\",\r\n//     \"email\": \"afdulrohmat03@gmail.com\",\r\n//     \"password\": \"qwerty\"\r\n// }\r\n{\r\n    \"username\": \"Sita Nuria\",\r\n    \"email\": \"afdulrohmat14@gmail.com\",\r\n    \"password\": \"qwerty\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/auth/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"afdulrohmat03@gmail.com\",\r\n    \"password\": \"qwerty\"\r\n}\r\n// {\r\n//     \"username\": \"afdulrohmat14@gmail.com\",\r\n//     \"password\": \"qwerty\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Account",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "afdulrohmat03@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "activationCode",
+									"value": "873613",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{BASE_URL}}/auth/activate-account"
+					},
+					"response": []
+				},
+				{
+					"name": "Resend Activation Code",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "afdulrohmat03@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{BASE_URL}}/auth/resend-activation-code"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "User Login Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/users/info"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Employees",
+			"item": [
+				{
+					"name": "Export",
+					"item": [
+						{
+							"name": "Export Data Employe Per Page",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/pdf",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/employees/export-data/per-page?page=1&size=10&format=pdf",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"employees",
+										"export-data",
+										"per-page"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "size",
+											"value": "10"
+										},
+										{
+											"key": "format",
+											"value": "pdf"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export All Data Employe",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/pdf",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/employees/export-data/all?format=pdf",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"employees",
+										"export-data",
+										"all"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "pdf"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Add Employee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nama",
+									"value": "Agus Sudarsono",
+									"type": "text"
+								},
+								{
+									"key": "nomor",
+									"value": "EMP123",
+									"type": "text"
+								},
+								{
+									"key": "jabatan",
+									"value": "Software Engineer",
+									"type": "text"
+								},
+								{
+									"key": "departemen",
+									"value": "IT",
+									"type": "text"
+								},
+								{
+									"key": "tanggalMasuk",
+									"value": "2024-01-10",
+									"type": "text"
+								},
+								{
+									"key": "foto",
+									"value": "https://imageurl.com/photo.jpg",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "Kontrak",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{BASE_URL}}/employees/add-employee"
+					},
+					"response": []
+				},
+				{
+					"name": "Import Data CSV",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{BASE_URL}}/employees/import-csv"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Employee",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/employees/all-employees",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"employees",
+								"all-employees"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "Agus",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employe By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/employees/10"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Employe",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nama",
+									"value": "John Doe Update",
+									"type": "text"
+								},
+								{
+									"key": "nomor",
+									"value": "EMP001",
+									"type": "text"
+								},
+								{
+									"key": "jabatan",
+									"value": "Software Engineer",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "departemen",
+									"value": "Development",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "tanggalMasuk",
+									"value": "2022-01-15T00:00:00.000Z",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "foto",
+									"value": "https://res.cloudinary.com/dmyo8iuwy/image/upload/v1726730539/sinar-sakti-international-employee-management/Lambang-ITS-1726730537095.png",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "Tetap",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{BASE_URL}}/employees/1/update"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Employe By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{BASE_URL}}/employees/1/delete"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TEST URL",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFmZHVscm9obWF0MDNAZ21haWwuY29tIiwic3ViIjp7InVzZXJuYW1lIjoiQWZkdWwgUm9obWF0In0sImlhdCI6MTcyNjc1MzMzNSwiZXhwIjoxNzI2NzU2OTM1fQ.9cW6hrPi3ZX_dM9Y3EPQ9kjSFhzgCZBrTTBqwznsrtE"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		}
+	]
+}
