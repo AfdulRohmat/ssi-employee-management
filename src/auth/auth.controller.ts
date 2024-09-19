@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { RegisterRequestDTO } from './dto/request/register-request.dto';
 import { User } from 'src/users/entities/user.entity';
 import { Response } from 'express';
-import { CommonResponseDto } from 'src/utils/common-response.dto';
+import { CommonResponseDTO } from 'src/utils/common-response.dto';
 import { NoFilesInterceptor } from '@nestjs/platform-express';
 import { RegisterResponseDTO } from './dto/response/register-response.dto';
 import { ActivateAccountRequestDTO } from './dto/request/activate-account-request.dto';
@@ -22,7 +22,7 @@ export class AuthController {
     try {
       const responseData: RegisterResponseDTO = await this.authService.register(request);
 
-      const successResponse = new CommonResponseDto(201, 'Proses registrasi berhasil. Silahkan cek email anda', responseData, null);
+      const successResponse = new CommonResponseDTO(201, 'Proses registrasi berhasil. Silahkan cek email anda', responseData, null);
       return response.status(successResponse.statusCode).json(successResponse);
     } catch (error) {
       response.status(error.status).json(error.response);
@@ -35,7 +35,7 @@ export class AuthController {
     try {
       const responseData: ActivateAccountResponseDTO = await this.authService.activateAccount(request);
 
-      const successResponse = new CommonResponseDto(200, 'Proses aktivasi berhasil. Silahkan login', responseData, null);
+      const successResponse = new CommonResponseDTO(200, 'Proses aktivasi berhasil. Silahkan login', responseData, null);
       return response.status(successResponse.statusCode).json(successResponse);
     } catch (error) {
       response.status(error.status).json(error.response);
@@ -50,7 +50,7 @@ export class AuthController {
 
       const responseData = await this.authService.login(request.user)
 
-      const successResponse = new CommonResponseDto(200, 'Login berhasil', responseData, null);
+      const successResponse = new CommonResponseDTO(200, 'Login berhasil', responseData, null);
       return response.status(successResponse.statusCode).json(successResponse);
     } catch (error) {
       response.status(error.status).json(error.response);

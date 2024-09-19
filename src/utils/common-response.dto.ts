@@ -1,5 +1,5 @@
 // common-response.dto.ts
-export class CommonResponseDto {
+export class CommonResponseDTO {
     statusCode: number;
     message: string;
     data: any;

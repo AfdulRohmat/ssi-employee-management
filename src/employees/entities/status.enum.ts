@@ -1,5 +1,5 @@
 export enum StatusEnum {
-    KONTRAK = 'Kontrak',
-    TETAP = 'Tetap',
-    PROBATION = 'Probation'
+    KONTRAK = 'kontrak',
+    TETAP = 'tetap',
+    PROBATION = 'probation'
 }
