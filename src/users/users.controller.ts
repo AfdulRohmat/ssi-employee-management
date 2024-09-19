@@ -5,11 +5,15 @@ import { UserDetailResponseDTO } from './dto/response/user-detail-response.dto';
 import { CommonResponseDTO } from 'src/utils/common-response.dto';
 import { JwtGuard } from 'src/auth/guards/jwt-auth.guard';
 import { NoFilesInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
+  @ApiOperation({ summary: 'Get current user information' })
+  @ApiBearerAuth() // Add this line
   @UseGuards(JwtGuard)
   @Get('info')
   @UseInterceptors(NoFilesInterceptor())
@@ -26,6 +30,7 @@ export class UsersController {
   }
 
   @UseGuards(JwtGuard)
+  @ApiBearerAuth() // Add this line
   @Get('hello-service')
   async getHello(@Request() request: any, @Res() response: Response) {
     try {

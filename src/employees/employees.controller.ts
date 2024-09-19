@@ -12,6 +12,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { parse } from 'fast-csv';
 import { diskStorage } from 'multer';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { StatusEnum } from './entities/status.enum';
 
 const storage = diskStorage({
   destination: './uploads', // Specify the uploads directory
@@ -21,11 +23,37 @@ const storage = diskStorage({
   },
 });
 
+@ApiTags('employees') // Tag for Swagger UI
+@ApiBearerAuth() // Add this line
 @UseGuards(JwtGuard)
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) { }
 
+  @ApiOperation({ summary: 'Add a new employee' }) // Swagger operation description
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Request body for adding a new employee',
+    type: AddEmployeeRequestDTO,
+    examples: {
+      a: {
+        summary: 'Example Employee Data',
+        value: {
+          nama: 'Afdul Rohmat',
+          nomor: 'EMP123',
+          jabatan: 'Software Engineer',
+          departemen: 'IT',
+          tanggalMasuk: '2023-09-01',
+          status: 'kontrak',
+          foto: {
+            type: 'string',
+            format: 'binary', // Indicates a file input
+            description: 'Profile photo of the employee',
+          },
+        },
+      },
+    },
+  })
   @Post("add-employee")
   @UseInterceptors(FileInterceptor('foto', { storage: CloudinaryStorageConfig }))
   async addEmployee(@Body() addEmployeeRequestDTO: AddEmployeeRequestDTO,
@@ -36,6 +64,10 @@ export class EmployeesController {
     return response.status(successResponse.statusCode).json(successResponse);
   }
 
+  @ApiOperation({ summary: 'Retrieve all employees' }) // Description
+  @ApiQuery({ name: 'page', required: false, description: 'Page number' }) // Query parameter documentation
+  @ApiQuery({ name: 'limit', required: false, description: 'Limit number of records' })
+  @ApiQuery({ name: 'search', required: false, description: 'Search by employee name or other attributes' })
   @Get("all-employees")
   async getAllEmployees(
     @Query('page') page: number = 1, // Default to page 1
@@ -49,6 +81,8 @@ export class EmployeesController {
   }
 
   // Get employee by ID
+  @ApiOperation({ summary: 'Get an employee by ID' })
+  @ApiParam({ name: 'id', description: 'Employee ID' })
   @Get(':id')
   async getEmployeeById(@Param('id') id: string, @Res() response: Response) {
     const employee = await this.employeesService.getEmployeeById(parseInt(id));
@@ -57,6 +91,31 @@ export class EmployeesController {
   }
 
   // Update employee by ID
+  @ApiOperation({ summary: 'Update an employee by ID' })
+  @ApiParam({ name: 'id', description: 'Employee ID' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Request body for updating an employee',
+    type: UpdateEmployeeRequestDTO,
+    examples: {
+      a: {
+        summary: 'Example Update Employee Data',
+        value: {
+          nama: 'John Doe',
+          nomor: 'EMP456',
+          jabatan: 'Senior Developer',
+          departemen: 'Engineering',
+          tanggalMasuk: '2020-01-15',
+          status: 'tetap',
+          foto: {
+            type: 'string',
+            format: 'binary', // Indicates a file input
+            description: 'Profile photo of the employee',
+          },
+        },
+      },
+    },
+  })
   @Put(':id/update')
   @UseInterceptors(FileInterceptor('foto', { storage: CloudinaryStorageConfig }))
   async updateEmployeeById(
@@ -71,6 +130,8 @@ export class EmployeesController {
   }
 
   // Soft delete employee by ID
+  @ApiOperation({ summary: 'Soft delete an employee by ID' })
+  @ApiParam({ name: 'id', description: 'Employee ID' })
   @Delete(':id/delete')
   async deleteEmployeeById(@Param('id') id: string, @Res() response: Response) {
     await this.employeesService.softDeleteEmployeeById(parseInt(id));
@@ -78,6 +139,24 @@ export class EmployeesController {
     return response.status(successResponse.statusCode).json(successResponse);
   }
 
+  @ApiOperation({ summary: 'Import employees from a CSV file' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Request body for updating an employee',
+    type: UpdateEmployeeRequestDTO,
+    examples: {
+      a: {
+        summary: 'Example import csv Employee Data',
+        value: {
+          file: {
+            type: 'string',
+            format: 'binary', // Indicates a file input
+            description: 'Profile photo of the employee',
+          },
+        },
+      },
+    },
+  })
   @Post('import-csv')
   @UseInterceptors(FileInterceptor('file', { storage }))
   async importCsv(
@@ -111,6 +190,10 @@ export class EmployeesController {
   }
 
   @Get('export-data/per-page')
+  @ApiOperation({ summary: 'Export employees data by page in CSV or PDF' })
+  @ApiQuery({ name: 'format', required: true, description: 'Export format: csv or pdf', enum: ['csv', 'pdf'] })
+  @ApiQuery({ name: 'page', required: true, description: 'Page number' })
+  @ApiQuery({ name: 'size', required: true, description: 'Number of employees per page' })
   async exportEmployeesFromPage(
     @Query('format') format: 'csv' | 'pdf',
     @Query('page') page: number,
@@ -135,6 +218,8 @@ export class EmployeesController {
     }
   }
 
+  @ApiOperation({ summary: 'Export all employees data in CSV or PDF' })
+  @ApiQuery({ name: 'format', required: true, description: 'Export format: csv or pdf', enum: ['csv', 'pdf'] })
   @Get('export-data/all')
   async exportAllEmployees(
     @Query('format') format: 'csv' | 'pdf',

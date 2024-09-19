@@ -7,7 +7,6 @@ export class EmailService {
     constructor(private mailerService: MailerService) { }
 
     async sendUserConfirmation(user: User) {
-
         await this.mailerService.sendMail({
             to: user.email,
             from: '"Support Team" <afdulrohmat03@gmail.com>', // override default from
