@@ -35,6 +35,12 @@ http://localhost:3000/api-docs/
 ```
 
 ## API Endpoints
+For more details regarding api documentation, here is the postman collection. Please download then import into postman, all api can be accessed directly :
+```bash
+SSI Employee Management.postman_collection
+```
+
+The following is a summary of the API list :
 | Name                          | Method | URL                                  | Description                                   |
 |-------------------------------|--------|--------------------------------------|-----------------------------------------------|
 | Register User                 | POST   | `/api/v1/auth/register`             | Registers a new user                          |
